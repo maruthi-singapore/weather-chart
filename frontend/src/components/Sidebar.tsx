@@ -1,10 +1,14 @@
 import { useMemo, useState } from 'react';
 import { useStore } from '../state/store';
-import { SearchIcon } from './icons';
+import { MapIcon, SearchIcon } from './icons';
 import { SidebarCard } from './SidebarCard';
 import { AddLocationForm } from './AddLocationForm';
 
-export function Sidebar() {
+interface SidebarProps {
+  onOpenMap: () => void;
+}
+
+export function Sidebar({ onOpenMap }: SidebarProps) {
   const { locations, isLoading } = useStore();
   const [query, setQuery] = useState('');
 
@@ -32,6 +36,15 @@ export function Sidebar() {
       </div>
 
       <AddLocationForm />
+
+      <button
+        type="button"
+        onClick={onOpenMap}
+        className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm font-medium text-white/85 backdrop-blur-xl hover:bg-white/[0.12]"
+      >
+        <MapIcon />
+        <span>Open Map</span>
+      </button>
 
       <div className="flex flex-col gap-2 overflow-y-auto pr-1">
         {isLoading && locations.length === 0 ? (
